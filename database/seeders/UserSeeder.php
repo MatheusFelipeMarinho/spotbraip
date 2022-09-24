@@ -22,12 +22,11 @@ class UserSeeder extends Seeder
             'freemium'
        ];
 
-       $role = fake()->randomElement($roles);
-
        $users = User::factory(10)->create();
 
        foreach($users as $user){
-            $user->assignRole($role);
+           $role = fake()->randomElement($roles);
+           $user->assignRole($role);
        }
     }
 }
