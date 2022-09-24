@@ -24,6 +24,7 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'nickname' => fake()->unique()->userName(),
             'email_verified_at' => now(),
             'type' => $typeSelected,
             'password' => 'password', // password

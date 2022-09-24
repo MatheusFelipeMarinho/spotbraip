@@ -15,6 +15,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)->create();
+       $roles = [
+            'admin',
+            'singer',
+            'payer',
+            'freemium'
+       ];
+
+       $role = fake()->randomElement($roles);
+
+       $users = User::factory(10)->create();
+
+       foreach($users as $user){
+            $user->assignRole($role);
+       }
     }
 }

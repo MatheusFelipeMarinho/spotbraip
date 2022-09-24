@@ -18,6 +18,7 @@ class UserController extends Controller
         $user = User::paginate();
 
         return response()->json($user);
+        
 
     }
 
@@ -47,7 +48,7 @@ class UserController extends Controller
     public function show($id)
     {
         //Validar
-        
+
         $user = User::find($id);
 
         return response()->json($user);
