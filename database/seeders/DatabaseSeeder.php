@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\UserSeeder;
-use Database\Seeders\PermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +20,11 @@ class DatabaseSeeder extends Seeder
             GenreSeeder::class,
             AlbumSeeder::class,
             MusicSeeder::class,
+            PlaylistSeeder::class,
+            PlaylistMusicSeeder::class,
+            PlaylistUserSeeder::class,
+            LikeSeeder::class,
+            AlbumGenreSeeder::class
         ]);
     }
 }

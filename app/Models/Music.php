@@ -24,12 +24,12 @@ class Music extends Model
     }
 
     /**
-     * Get the user that owns the Music
+     * Get all of the comments for the PLaylist
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function playlist(): BelongsTo
+    public function musicPlaylist(): HasMany
     {
-        return $this->belongsTo(Playlist::class);
+        return $this->hasMany(PlaylistMusic::class, 'music_id');
     }
 }

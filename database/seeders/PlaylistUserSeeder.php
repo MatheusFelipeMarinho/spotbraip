@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Music;
-use App\Models\Playlist;
+use App\Models\PlaylistUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class PlaylistSeeder extends Seeder
+class PlaylistUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +15,6 @@ class PlaylistSeeder extends Seeder
      */
     public function run()
     {
-        Playlist::factory(10)->create();
+        PlaylistUser::factory(18)->create();
     }
 }

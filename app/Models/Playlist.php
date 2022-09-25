@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,13 +21,8 @@ class Playlist extends Model
         return (string) Uuid::uuid4();
     }
 
-    /**
-     * Get all of the comments for the PLaylist
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function music(): HasMany
+    public function playlistMusic(): HasMany
     {
-        return $this->hasMany(Music::class);
+        return $this->hasMany(PlaylistMusic::class, 'playlist_id');
     }
 }
