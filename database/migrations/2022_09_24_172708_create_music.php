@@ -18,6 +18,11 @@ return new class extends Migration
             $table->foreignUuid('album_id')->index();
             $table->foreignUuid('user_id')->index();
             $table->string('name', 100);
+            $table->string('hash');
+            $table->string('original_name');
+            $table->string('extension');
+            $table->string('image_path');
+            $table->string('path');
             $table->integer('duration')->unsigned()->nullable()->default(0);
             $table->integer('plays')->unsigned()->nullable()->default(0);
             $table->timestamps();

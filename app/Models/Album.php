@@ -11,6 +11,11 @@ class Album extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $fillable = [
+        'name',
+        'description'
+    ];
+
     /**
      * Generate a new UUID for the model.
      *
@@ -19,5 +24,15 @@ class Album extends Model
     public function newUniqueId()
     {
         return (string) Uuid::uuid4();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function genre()
+    {
+        return $this->hasMany(AlbumGenre::class);
     }
 }

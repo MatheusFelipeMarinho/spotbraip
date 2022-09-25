@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\MusicController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\Auth\Api\LoginController;
 use App\Http\Controllers\Auth\Api\RegisterController;
 
@@ -17,7 +21,24 @@ use App\Http\Controllers\Auth\Api\RegisterController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+
+    $user->removeRole('admin');
+    $user->assignRole('singer');
+
+    return response()->json(["data"=>$user]);
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::resource('/genre', GenreController::class);
+    Route::resource('/album', AlbumController::class);
+    Route::resource('/music', MusicController::class);
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::resource('/play', PlayerController::class);
+    // Route::get('/pause', PlayerController::class);
+    // Route::get('/stop', PlayerController::class);
 });
 
 Route::prefix('auth')->group(function(){

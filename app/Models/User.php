@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($password);
     }
+
+    public function album()
+    {
+        return $this->hasMany(Album::class, 'user_id');
+    }
 }

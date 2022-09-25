@@ -11,6 +11,13 @@ class Genre extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'genres';
+
+    protected $fillable = [
+        'name',
+        'description'
+    ];
+
     /**
      * Generate a new UUID for the model.
      *
@@ -20,4 +27,5 @@ class Genre extends Model
     {
         return (string) Uuid::uuid4();
     }
+
 }

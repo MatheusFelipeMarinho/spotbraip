@@ -9,9 +9,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Music extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
+    use HasUuids;
 
     protected $table = 'musics';
+
+    protected $fillable = [
+        'album_id',
+        'user_id',
+        'name' ,
+        'hash',
+        'original_name',
+        'extension',
+        'image_path',
+        'path',
+        'duration',
+        'plays'
+    ];
 
     /**
      * Generate a new UUID for the model.

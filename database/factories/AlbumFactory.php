@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +17,11 @@ class AlbumFactory extends Factory
      */
     public function definition()
     {
+        $users =  User::all()->pluck('id');
+        $user_id = fake()->randomElement($users);
+
         return [
+            'user_id' => $user_id,
             'name' => fake()->name(),
             'description' => fake()->paragraph()
         ];
