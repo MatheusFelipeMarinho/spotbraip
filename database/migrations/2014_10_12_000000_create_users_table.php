@@ -17,10 +17,11 @@ return new class extends Migration
             $table->uuid('id')->index();
             $table->string('name');
             $table->string('nickname');
+            $table->longText('bio')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('type');
+            $table->integer('type');
             $table->boolean('is_active')->default(false);
             $table->date('last_login')->nullable();
             $table->rememberToken();

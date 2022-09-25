@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Enum\UserType;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -17,18 +18,15 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $types = ['administrator', 'singer', 'payer', 'freemium'];
-
-        $typeSelected = fake()->randomElement($types);
-
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'nickname' => fake()->unique()->userName(),
+            'bio' => fake()->paragraph(),
             'last_login' => now(),
             'is_active' => fake()->boolean(),
             'email_verified_at' => now(),
-            'type' => $typeSelected,
+            'type' => fake()->randomElement(UserType::cases()),
             'password' => 'password', // password
             'remember_token' => Str::random(10),
         ];

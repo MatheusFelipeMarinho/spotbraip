@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Ramsey\Uuid\Uuid;
+use App\Enum\UserType;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
@@ -28,7 +29,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'nickname',
+        'bio',
+        'last_login',
         'password',
+        'type',
+        'is_active',
     ];
 
     /**
@@ -48,6 +54,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login' => 'date',
+        'is_active' => 'boolean',
+        'type' => UserType::class
     ];
 
     /**
