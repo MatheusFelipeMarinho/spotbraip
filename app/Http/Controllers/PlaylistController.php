@@ -11,9 +11,19 @@ class PlaylistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $playlist = Playlist::query();
+
+        if($request->name){
+            $playlist->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $playlist->with('musics');
+
+        $result = $playlist->get();
+
+        return response()->json($result);
     }
 
     /**
@@ -22,9 +32,22 @@ class PlaylistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Playlist $playlist)
     {
-        //
+        $this->authorize('create', $playlist);
+
+        $data = [
+            'user_id' => auth()->user()->id,
+            'name' => $request->name
+        ];
+
+        if (!$playlist = $playlist->create($data)) {
+            abort(500, 'Error to create a new playlist...');
+        }
+
+        return response()->json([
+            "data" => $playlist,
+        ]);
     }
 
     /**
@@ -35,7 +58,7 @@ class PlaylistController extends Controller
      */
     public function show($id)
     {
-        //
+        $playlist = Playlist::with('musics')->find($id);
     }
 
     /**
@@ -47,7 +70,22 @@ class PlaylistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $playlist = Playlist::find($id);
+
+        $this->authorize('update', $playlist);
+
+        $data = [
+            'user_id' => auth()->user()->id,
+            'name' => $request->name
+        ];
+
+        if (!$playlist = $playlist->update($data)) {
+            abort(500, 'Error to create a new playlist...');
+        }
+
+        return response()->json([
+            "data" => $playlist,
+        ]);
     }
 
     /**

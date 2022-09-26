@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MusicController;
@@ -41,9 +42,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('/genre', GenreController::class);
     Route::resource('/album', AlbumController::class);
     Route::resource('/music', MusicController::class);
-    Route::resource('/playlist', PlaylistController::class);
+    Route::resource('/playlist', PlaylistController::class)->middleware('auth:sanctum', 'role:payer');
+    Route::resource('/like', LikeController::class);
 });
-
 
 Route::get('/play', 'App\Http\Controllers\PlayerController@play')->middleware('auth:sanctum');
 
+Route::post('/add/music/playlist',
+ 'App\Http\Controllers\AddMusicPlaylistController@addMusicToPlaylist')
+ ->middleware('auth:sanctum');
+
+Route::post('/remove/music/playlist',
+ 'App\Http\Controllers\AddMusicPlaylistController@removeMusicToPlaylist')
+ ->middleware('auth:sanctum');
