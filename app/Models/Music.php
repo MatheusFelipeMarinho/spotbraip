@@ -38,6 +38,16 @@ class Music extends Model
     }
 
     /**
+     * Get the user that owns the Music
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Get all of the comments for the PLaylist
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -11,6 +11,12 @@ class PlaylistMusic extends Model
 
     protected $table = 'playlist_musics';
 
+    protected $fillable = [
+        'playlist_id',
+        'music_id',
+        'music_name'
+    ];
+
     /**
      * Get the playlist that owns the PlaylistMusic
      *

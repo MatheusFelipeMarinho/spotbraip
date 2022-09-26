@@ -14,6 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Genre::class => GenrePolicy::class,
+        Album::class => AlbumPolicy::class,
+        Music::class => MusicPolicy::class,
     ];
 
     /**

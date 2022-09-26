@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use Illuminate\Http\Request;
+use App\Http\Requests\AlbumRequest;
 
 class AlbumController extends Controller
 {
@@ -12,7 +13,7 @@ class AlbumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $album = Album::query();
 
@@ -31,7 +32,7 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Album $album)
+    public function store(AlbumRequest $request, Album $album)
     {
         $this->authorize('create', $album);
 
@@ -73,9 +74,34 @@ class AlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AlbumRequest $request, $id)
     {
-        //
+        $album = Album::find($id);
+        
+        $this->authorize('update', $album);
+
+        if(!$album){
+            throw new Exception('Album not found.');
+        }
+
+        $data = $request->only('name', 'description');
+
+        if (!$album = $album->update($data)) {
+            abort(500, 'Error to create a new album...');
+        }
+
+        $album_genres = $request->genres;
+
+        foreach($album_genres as $value){
+            $album->genre()->create([
+                'genre_id' => $value,
+                'album_id' => $album->id
+            ]);
+        }
+
+        return response()->json([
+            "data" => $album,
+        ]);
     }
 
     /**

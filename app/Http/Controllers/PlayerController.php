@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Response;
 
 class PlayerController extends Controller
 {
-    public function index(Request $request)
+    public function play(Request $request)
     {
         $music = Music::find($request->id);
 

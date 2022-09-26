@@ -29,18 +29,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json(["data"=>$user]);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::resource('/genre', GenreController::class);
-    Route::resource('/album', AlbumController::class);
-    Route::resource('/music', MusicController::class);
-});
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::resource('/play', PlayerController::class);
-    // Route::get('/pause', PlayerController::class);
-    // Route::get('/stop', PlayerController::class);
-});
-
 Route::prefix('auth')->group(function(){
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
@@ -48,3 +36,14 @@ Route::prefix('auth')->group(function(){
     Route::post('/register/user', [RegisterController::class, 'user']);
     Route::post('/register/admin', [RegisterController::class, 'user'])->middleware('auth:sanctum', 'role:admin');
 });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::resource('/genre', GenreController::class);
+    Route::resource('/album', AlbumController::class);
+    Route::resource('/music', MusicController::class);
+    Route::resource('/playlist', PlaylistController::class);
+});
+
+
+Route::get('/play', 'App\Http\Controllers\PlayerController@play')->middleware('auth:sanctum');
+

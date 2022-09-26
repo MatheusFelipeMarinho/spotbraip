@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\Music;
 use Illuminate\Http\Request;
+use App\Http\Requests\MusicRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -39,8 +41,10 @@ class MusicController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Music $music)
+    public function store(MusicRequest $request, Music $music)
     {
+        $this->authorize('create', $music);
+
         $user_id = auth()->user()->id;
 
         $disk = Storage::disk('public');
@@ -93,12 +97,9 @@ class MusicController extends Controller
     {
         $music = Music::find($id);
 
-        if ($stream = fopen('http://www.example.com', 'r')) {
-            // print all the page starting at the offset 10
-            echo stream_get_contents($stream, -1, 10);
-
-            fclose($stream);
-        }
+        return response()->json([
+            "data" => $music,
+        ]);
     }
 
     /**
@@ -108,9 +109,56 @@ class MusicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MusicRequest $request, $id)
     {
-        //
+        $music = Music::find($id);
+
+        $this->authorize('update', $music);
+
+        if(!$music){
+            throw new Exception('$music not found.');
+        }
+
+        $user_id = auth()->user()->id;
+
+        $disk = Storage::disk('public');
+        $fileAudio = $request->file('audio');
+        $fileImage = $request->file('image');
+        $extensionAudio = $request->file('audio')->getClientOriginalExtension();
+        $extensionImage = $request->file('image')->getClientOriginalExtension();
+        $duration = $request->file('audio')->getSize();
+
+        $hash = Hash::make(Carbon::now()->format('Ymd').'_'.$request->name);
+
+        if($request->hasFile('audio')){
+            $disk->putFileAs($user_id.'/mp3/', $fileAudio, $hash. '.' .$extensionAudio);
+        }
+
+        if($request->hasFile('image')){
+            $disk->putFileAs($user_id.'/thumb/', $fileAudio, $hash. '.' .$extensionImage);
+        }
+
+
+        $data = [
+            'album_id' => $request->album_id,
+            'user_id' => $user_id,
+            'name' => $request->name,
+            'hash' => $hash. '.' .$extensionAudio,
+            'original_name' => $request->file('audio')->getClientOriginalName(),
+            'extension' => $request->file('audio')->getClientOriginalExtension(),
+            'image_path' => $user_id.'/thumb/' . $hash. '.' .$extensionImage,
+            'path' => $user_id.'/mp3/'. $hash. '.' .$extensionAudio,
+            'duration' => $request->file('audio')->getSize(),
+        ];
+
+
+        if (!$music = $music->update($data)) {
+            abort(500, 'Error to create a new music...');
+        }
+
+        return response()->json([
+            "data" => $music,
+        ]);
     }
 
     /**
