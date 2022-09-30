@@ -10,13 +10,13 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\Auth\Api\LoginController;
 use App\Http\Controllers\Auth\Api\RegisterController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    $user = $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     $user = $request->user();
 
-    $user->assignRole('payer');
+//     $user->assignRole('payer');
 
-    return response()->json(["data"=>$user]);
-});
+//     return response()->json(["data"=>$user]);
+// });
 
 Route::prefix('auth')->group(function(){
     Route::post('/login', [LoginController::class, 'login']);
