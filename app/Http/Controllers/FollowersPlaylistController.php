@@ -8,7 +8,7 @@ class FollowersPlaylistController extends Controller
 {
    public function follow()
    {
-
+        
    }
 
    public function unFollow()

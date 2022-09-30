@@ -24,8 +24,7 @@ use App\Http\Controllers\Auth\Api\RegisterController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user();
 
-    $user->removeRole('admin');
-    $user->assignRole('singer');
+    $user->assignRole('payer');
 
     return response()->json(["data"=>$user]);
 });

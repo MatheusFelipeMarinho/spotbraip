@@ -38,4 +38,5 @@ class AlbumRequest extends FormRequest
             'description.required' => 'The field description is required.',
         ];
     }
+
 }

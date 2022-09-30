@@ -41,7 +41,7 @@ class MusicPolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('payer');
+        return $user->hasRole('singer');
     }
 
     /**

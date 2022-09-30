@@ -34,8 +34,6 @@ class PlaylistController extends Controller
      */
     public function store(Request $request, Playlist $playlist)
     {
-        $this->authorize('create', $playlist);
-
         $data = [
             'user_id' => auth()->user()->id,
             'name' => $request->name
@@ -71,8 +69,6 @@ class PlaylistController extends Controller
     public function update(Request $request, $id)
     {
         $playlist = Playlist::find($id);
-
-        $this->authorize('update', $playlist);
 
         $data = [
             'user_id' => auth()->user()->id,
