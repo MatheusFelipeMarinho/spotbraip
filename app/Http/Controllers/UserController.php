@@ -15,10 +15,10 @@ class UserController extends Controller
     {
         // Fazer os filtros
 
-        $user = User::paginate();
+        $user = User::with('album');
 
         return response()->json($user);
-        
+
 
     }
 
