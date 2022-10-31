@@ -9,30 +9,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MusicRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\AbstractController;
 
-class MusicController extends Controller
+class MusicController extends AbstractController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+
+    public function __construct(MusicService $service)
     {
-        $music = Music::query();
-
-        if(!$request->name){
-            $musics = $music->orderBy('plays', 'asc')->paginate(50);
-            return response()->json([
-                "data" => $musics
-            ]);
-        }
-
-        $musics = $music->where('name', 'like', '%' . $request->name . '%')->get();
-
-        return response()->json([
-            "data" => $musics
-        ]);
+        $this->service = $service;
     }
 
     /**
@@ -81,21 +65,6 @@ class MusicController extends Controller
         if (!$music = $music->create($data)) {
             abort(500, 'Error to create a new music...');
         }
-
-        return response()->json([
-            "data" => $music,
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $music = Music::find($id);
 
         return response()->json([
             "data" => $music,
@@ -159,16 +128,5 @@ class MusicController extends Controller
         return response()->json([
             "data" => $music,
         ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
